@@ -19,16 +19,25 @@ main {
      border: 1px solid #c4c2c2;
      border-radius: 5px;
      text-align: center;
+     padding: 10px 0;
 }
 
 .plant-card h2 {
      border-bottom: 1px solid #c4c2c2;
      text-align: center;
-     padding: 10px 0;
+     padding-bottom: 10px;
      letter-spacing: 1px;
 }
 
 .plant-card p {
-     padding: 15px 0;
+     padding: 15px 10px;
      color: #35cc35;
+}
+
+.plant-card .del-btn {
+     border: 1px solid #555555;
+     padding: 5px;
+     border-radius: 5px;
+     background-color: #555555;
+     color: #fff;
 }

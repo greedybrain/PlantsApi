@@ -1,30 +1,70 @@
+const BASE_URL = "http://localhost:3000"
 let main = document.querySelector('main');
 
 document.addEventListener("DOMContentLoaded", e => {
-     fetchPlants()
+     getPlants();
+     deletePlant();
 })
 
-function fetchPlants() {
-     fetch('http://localhost:3000/plants')
-          .then(res => res.json())
-          .then(plant => createPlantCards(plant))
+function getPlants() {
+     setUpPlantsForRetrieval();
 }
 
-// Create Plants Cards
+function deletePlant() {
+     setUpPlantForDeletion()
+}
 
-function createPlantCards(plant) {
+function setUpPlantsForRetrieval() {
+     fetch(`${BASE_URL}/plants`)
+          .then(res => res.json())
+          .then(plant => createPlantCards(plant))
 
-     plant.data.forEach(currPlant => {
-          let plantDiv = document.createElement('div');
-          plantDiv.classList.add('plant-card')
+     function createPlantCards(plant) {
 
-          let h2 = document.createElement('h2');
-          h2.textContent = currPlant.attributes.name
+          plant.data.forEach(currPlant => {
+               // debugger
+               let plantDiv = document.createElement('div');
+               plantDiv.setAttribute('data-id', `${currPlant.id}`)
+               plantDiv.classList.add('plant-card')
 
-          let p = document.createElement('p');
-          p.textContent = currPlant.attributes.species
+               let h2 = document.createElement('h2');
+               h2.textContent = currPlant.attributes.name
 
-          plantDiv.append(h2, p)
-          main.appendChild(plantDiv);
+               let p = document.createElement('p');
+               p.textContent = currPlant.attributes.species
+
+               let del = document.createElement('button')
+               del.classList.add('del-btn')
+               del.textContent = "Delete"
+
+               plantDiv.append(h2, p, del)
+               main.appendChild(plantDiv);
+          })
+     }
+}
+
+function setUpPlantForDeletion() {
+     main.addEventListener('click', e => {
+
+          let delBtns = document.querySelectorAll('.del-btn') // all release pokemon buttons
+          delBtns.forEach(plant => {
+               if (e.target === plant) {
+                    let plantId = plant.dataset.id;
+                    plant.parentElement.remove()
+                    createFetchDeleteBy(plantId)
+                    // }
+               }
+          });
+          // ===============================================
+
+          // ABSTRACTING AWAY DELETE FETCH CODE
+          function createFetchDeleteBy(id) {
+               fetch(`${BASE_URL}/${id}`, {
+                         "method": "DELETE"
+                    })
+                    .then(console.log("Deleted Successfully"))
+                    .catch(err => console.log(err.message))
+          }
+          // ===============================================
      })
 }
