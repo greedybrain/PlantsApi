@@ -1,0 +1,34 @@
+* {
+     margin: 0;
+     padding: 0;
+}
+
+header {
+     text-align: center;
+     padding: 30px 0;
+}
+
+main {
+     padding: 30px 30px;
+     display: grid;
+     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+     gap: 20px;
+}
+
+.plant-card {
+     border: 1px solid #c4c2c2;
+     border-radius: 5px;
+     text-align: center;
+}
+
+.plant-card h2 {
+     border-bottom: 1px solid #c4c2c2;
+     text-align: center;
+     padding: 10px 0;
+     letter-spacing: 1px;
+}
+
+.plant-card p {
+     padding: 15px 0;
+     color: #35cc35;
+}
