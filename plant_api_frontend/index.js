@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000"
+const BASE_URL = "http://localhost:3000/plants"
 let main = document.querySelector('main');
 
 document.addEventListener("DOMContentLoaded", e => {
@@ -15,7 +15,7 @@ function deletePlant() {
 }
 
 function setUpPlantsForRetrieval() {
-     fetch(`${BASE_URL}/plants`)
+     fetch(`${BASE_URL}`)
           .then(res => res.json())
           .then(plant => createPlantCards(plant))
 
@@ -49,7 +49,7 @@ function setUpPlantForDeletion() {
           let delBtns = document.querySelectorAll('.del-btn') // all release pokemon buttons
           delBtns.forEach(plant => {
                if (e.target === plant) {
-                    let plantId = plant.dataset.id;
+                    let plantId = plant.parentElement.dataset.id;
                     plant.parentElement.remove()
                     createFetchDeleteBy(plantId)
                     // }

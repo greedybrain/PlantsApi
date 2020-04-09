@@ -10,4 +10,9 @@ class PlantsController < ApplicationController
           render json: PlantSerializer.new(plant)
      end
 
+     def destroy 
+          plant = Plant.find(params[:id])
+          plant.destroy 
+     end
+
 end
