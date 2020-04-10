@@ -10,6 +10,11 @@ class PlantsController < ApplicationController
           render json: PlantSerializer.new(plant)
      end
 
+     def create 
+          plant = Plant.create(name: Faker::Cannabis.brand, species: Faker::Cannabis.cannabinoid )
+          render json: plant
+     end
+
      def destroy 
           plant = Plant.find(params[:id])
           plant.destroy 
