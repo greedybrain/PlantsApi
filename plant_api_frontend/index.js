@@ -2,21 +2,37 @@ const BASE_URL = "http://localhost:3000/plants"
 let main = document.querySelector('main');
 let addBtn = document.querySelector('.add');
 
+// >>>>>> IT ALL COMES DOWN TO THIS
 document.addEventListener("DOMContentLoaded", e => {
      getPlants();
-     addBtn.addEventListener('click', createFetchPost)
+     addAPlant();
      deletePlant();
 })
 
-// ALL THE SETTING UP GOES DOWN HERE 
 
+// >>>>>> THIS WORKS
 function getPlants() {
      fetch(`${BASE_URL}`)
           .then(res => res.json())
-          .then(plant => createPlantCards(plant))
+          .then(data => {
+               fillPlantCards(data)
+          })
+
+     function fillPlantCards(plantData) {
+          plantData.forEach(plant => {
+               createPlantCard(plant)
+          })
+     }
+}
+// >>>>>> THIS WORKS
+
+
+// >>>>>> THIS WORKS
+function addAPlant() {
+     addBtn.addEventListener('click', setUpAddPlant)
 }
 
-function createFetchPost() {
+function setUpAddPlant() {
      let options = {
           "method": "POST",
           "headers": {
@@ -24,62 +40,62 @@ function createFetchPost() {
                'Accept': "application/json"
           }
      }
-
      fetch(BASE_URL, options)
           .then(res => res.json())
-          .then(plant => console.log(plant))
+          .then(plant => {
+               createPlantCard(plant)
+          })
           .catch(err => console.log(err.message))
-
 }
+// >>>>> THIS WORKS
 
 
+// >>>>>> THIS WORKS
 function deletePlant() {
-     main.addEventListener('click', e => {
-          let delBtns = document.querySelectorAll('.del-btn')
-          delBtns.forEach(plantDelBtn => {
-               if (e.target === plantDelBtn) {
-                    let plantId = plantDelBtn.parentElement.parentElement.dataset.id;
-                    plantDelBtn.parentElement.parentElement.remove()
-                    createFetchDeleteBy(plantId)
-                    // }
-               }
-          });
-          // ===============================================
+     main.addEventListener('click', setUpDeletePlant)
+}
 
-          // ABSTRACTING AWAY DELETE FETCH CODE
-          function createFetchDeleteBy(id) {
-               fetch(`${BASE_URL}/${id}`, {
-                         "method": "DELETE"
-                    })
-                    .then(console.log("Deleted Successfully"))
-                    .catch(err => console.log(err.message))
+function setUpDeletePlant(event) {
+     let delBtns = document.querySelectorAll('.del-btn')
+     delBtns.forEach(plantDelBtn => {
+          if (event.target === plantDelBtn) {
+               let plantId = plantDelBtn.parentElement.parentElement.dataset.id;
+               plantDelBtn.parentElement.parentElement.remove()
+               createFetchDeleteBy(plantId)
           }
-     })
+     });
 }
 
-
-function createPlantCards(plant) {
-
-     plant.data.forEach(currPlant => {
-          let plantDiv = document.createElement('div');
-          plantDiv.setAttribute('data-id', `${currPlant.id}`)
-          plantDiv.classList.add('plant-card')
-
-          let h2 = document.createElement('h2');
-          h2.textContent = currPlant.attributes.name
-
-          let p = document.createElement('p');
-          p.textContent = currPlant.attributes.species
-
-          let btnWrapper = document.createElement('div')
-          btnWrapper.classList.add('btn-wrapper')
-
-          let del = document.createElement('button')
-          del.classList.add('del-btn')
-          del.textContent = "Delete"
-
-          btnWrapper.append(del)
-          plantDiv.append(h2, p, btnWrapper)
-          main.prepend(plantDiv);
-     })
+function createFetchDeleteBy(id) {
+     fetch(`${BASE_URL}/${id}`, {
+               "method": "DELETE"
+          })
+          .then(console.log("Deleted Successfully"))
+          .catch(err => console.log(err.message))
 }
+// >>>>>> THIS WORKS
+
+
+// >>>>>> THIS WORKS
+function createPlantCard(plant) {
+     let plantDiv = document.createElement('div');
+     plantDiv.setAttribute('data-id', `${plant.id}`)
+     plantDiv.classList.add('plant-card')
+
+     let h2 = document.createElement('h2');
+     h2.textContent = plant.name
+
+     let p = document.createElement('p');
+     p.textContent = plant.species
+
+     let btnWrapper = document.createElement('div')
+     btnWrapper.classList.add('btn-wrapper')
+
+     let del = document.createElement('button')
+     del.classList.add('del-btn')
+     del.textContent = "Delete"
+
+     btnWrapper.append(del)
+     plantDiv.append(h2, p, btnWrapper)
+     main.prepend(plantDiv);
+} // >>>>>> THIS WORKS
