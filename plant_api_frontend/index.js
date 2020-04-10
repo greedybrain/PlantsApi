@@ -17,12 +17,12 @@ function getPlants() {
           .then(data => {
                fillPlantCards(data)
           })
+}
 
-     function fillPlantCards(plantData) {
+function fillPlantCards(plantData) {
           plantData.forEach(plant => {
                createPlantCard(plant)
           })
-     }
 }
 // >>>>>> THIS WORKS
 
